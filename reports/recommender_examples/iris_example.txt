@@ -1,0 +1,28 @@
+Enter dataset name: 
+Recommendations for: Gingiris/gingiris-skills
+
+1. Gingiris/gingiris-reddit-marketing
+   Source: huggingface
+   Similarity: 0.4008
+   URL: https://huggingface.co/datasets/Gingiris/gingiris-reddit-marketing
+
+2. osunlp/SkillHarm
+   Source: huggingface
+   Similarity: 0.1749
+   URL: https://huggingface.co/datasets/osunlp/SkillHarm
+
+3. amoghacloud/clawskills-intelligence-corpus
+   Source: huggingface
+   Similarity: 0.1630
+   URL: https://huggingface.co/datasets/amoghacloud/clawskills-intelligence-corpus
+
+4. SkillEvolBench-Team/Skill-Evol-Bench
+   Source: huggingface
+   Similarity: 0.1538
+   URL: https://huggingface.co/datasets/SkillEvolBench-Team/Skill-Evol-Bench
+
+5. clem/hf-coding-tools-traces
+   Source: huggingface
+   Similarity: 0.1521
+   URL: https://huggingface.co/datasets/clem/hf-coding-tools-traces
+

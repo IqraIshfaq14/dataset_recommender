@@ -1,0 +1,28 @@
+Enter dataset name: 
+Recommendations for: agents-last-exam/agents-last-exam
+
+1. agents-last-exam/agents-last-exam-data
+   Source: huggingface
+   Similarity: 0.9017
+   URL: https://huggingface.co/datasets/agents-last-exam/agents-last-exam-data
+
+2. agents-last-exam/agents-last-exam-reference
+   Source: huggingface
+   Similarity: 0.8191
+   URL: https://huggingface.co/datasets/agents-last-exam/agents-last-exam-reference
+
+3. mercor/apex-agents
+   Source: huggingface
+   Similarity: 0.3197
+   URL: https://huggingface.co/datasets/mercor/apex-agents
+
+4. cais/hle
+   Source: huggingface
+   Similarity: 0.2503
+   URL: https://huggingface.co/datasets/cais/hle
+
+5. agents-course/certificates
+   Source: huggingface
+   Similarity: 0.2249
+   URL: https://huggingface.co/datasets/agents-course/certificates
+
