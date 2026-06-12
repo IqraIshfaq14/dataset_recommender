@@ -1,267 +1,358 @@
-# Dataset Recommender
+# Dataset Recommendation System
 
-A machine learning project that recommends relevant datasets based on user queries using TF-IDF similarity and metadata collected from Hugging Face datasets.
+## Project Overview
 
-## Overview
+This project develops an intelligent dataset recommendation system that helps users discover relevant machine learning datasets based on metadata similarity and semantic understanding.
 
-Finding the right dataset is often a time-consuming task for data scientists and machine learning practitioners. This project aims to simplify dataset discovery by building a recommendation engine that returns datasets relevant to a user's interests, domain, or task.
-
-The current implementation uses TF-IDF vectorization on dataset metadata and descriptions to identify similar datasets and generate recommendations.
+The system collects metadata from multiple dataset repositories, performs preprocessing and quality analysis, generates semantic embeddings, and recommends similar datasets using both traditional and modern recommendation techniques.
 
 ---
+
+## Objectives
+
+* Build a unified dataset catalog from multiple repositories.
+* Analyze dataset metadata quality.
+* Implement a TF-IDF based recommender system.
+* Implement a semantic embedding-based recommender system.
+* Compare recommendation approaches.
+* Evaluate recommendation performance using ranking metrics.
+* Deploy the system through an interactive web interface.
+
+---
+
+# Project Architecture
+
+```text
+Dataset Repositories
+(Hugging Face, UCI, Kaggle)
+            │
+            ▼
+    Metadata Collection
+            │
+            ▼
+      Data Cleaning
+            │
+            ▼
+     Unified Catalog
+            │
+            ├─────────────► TF-IDF Recommender
+            │
+            └─────────────► Embedding Generator
+                                   │
+                                   ▼
+                      Semantic Embedding Recommender
+                                   │
+                                   ▼
+                            Evaluation
+                                   │
+                                   ▼
+                             Streamlit UI
+```
+
+---
+
+# Technologies Used
+
+| Category                    | Libraries / Tools                     |
+| --------------------------- | ------------------------------------- |
+| Data Collection             | Pandas, Hugging Face Hub, UCI ML Repo |
+| Data Processing             | Pandas, NumPy                         |
+| Text Representation         | TF-IDF, Sentence Transformers         |
+| Machine Learning            | Scikit-learn                          |
+| Embedding Models            | all-MiniLM-L6-v2                      |
+| Evaluation                  | Precision@K, Recall@K, NDCG           |
+| Experiment Tracking         | Weights & Biases (W&B)                |
+| Hyperparameter Optimization | Optuna                                |
+| Frontend                    | Streamlit                             |
+| Deployment                  | Docker, Kubernetes                    |
+
+---
+
+# Stage 1: Data Collection
+
+## Goal
+
+Create a unified dataset catalog from multiple repositories.
+
+## Sources
+
+### Hugging Face
+
+* Dataset ID
+* Description
+* Tags
+* Downloads
+* Likes
+* URL
+
+### UCI Repository
+
+* Dataset Name
+* Abstract
+* Number of Instances
+* Number of Features
+
+### Kaggle (Planned)
+
+* Dataset Metadata
+* Tags
+* Popularity Metrics
+
+---
+
+## Unified Schema
+
+| Column      | Description                  |
+| ----------- | ---------------------------- |
+| dataset_id  | Unique dataset identifier    |
+| title       | Dataset name                 |
+| description | Dataset summary              |
+| tags        | Dataset tags                 |
+| task        | Machine learning task        |
+| source      | Repository source            |
+| downloads   | Popularity metric            |
+| likes       | User feedback metric         |
+| url         | Dataset URL                  |
+| search_text | Combined searchable metadata |
+
+---
+
+# Stage 2: Data Preprocessing
+
+## Data Cleaning
+
+* Missing value handling
+* Duplicate removal
+* Text normalization
+* Metadata standardization
+
+## Tag Cleaning
+
+Removed noisy tags such as:
+
+```text
+library:datasets
+library:pandas
+region:us
+format:csv
+```
+
+Retained useful tags:
+
+```text
+language:en
+modality:text
+license:apache-2.0
+```
+
+---
+
+# Stage 3: TF-IDF Recommender
+
+## Method
+
+Content-based recommendation using TF-IDF vectorization.
+
+### Workflow
+
+```text
+Dataset Metadata
+       ↓
+TF-IDF Vectorizer
+       ↓
+Sparse Feature Vectors
+       ↓
+Cosine Similarity
+       ↓
+Recommendations
+```
+
+## Libraries
+
+* Scikit-learn
+* Pandas
+
+## Techniques
+
+* TF-IDF Vectorization
+* Cosine Similarity
+* Content-Based Filtering
+
+---
+
+# Stage 4: Embedding Generation
+
+## Method
+
+Semantic embeddings generated using Sentence Transformers.
+
+### Model
+
+```text
+all-MiniLM-L6-v2
+```
+
+### Workflow
+
+```text
+Title + Description + Tags
+              ↓
+Sentence Transformer
+              ↓
+384-Dimensional Embedding
+              ↓
+hf_embeddings.npy
+```
+
+### Output
+
+```text
+(10000, 384)
+```
+
+Each dataset is represented as a 384-dimensional semantic vector.
+
+---
+
+# Stage 5: Embedding Recommender
+
+## Method
+
+Semantic similarity search using vector embeddings.
+
+### Workflow
+
+```text
+User Query
+      ↓
+Embedding Model
+      ↓
+Query Embedding
+      ↓
+Cosine Similarity
+      ↓
+Top-N Recommendations
+```
+
+### Advantages
+
+* Understands semantic meaning
+* Handles vocabulary differences
+* More intelligent than keyword matching
+
+---
+
+# Stage 6: Evaluation
+
+## Metrics
+
+### Precision@K
+
+Measures how many recommended datasets are relevant.
+
+### Recall@K
+
+Measures how many relevant datasets are successfully retrieved.
+
+### NDCG
+
+Measures ranking quality and recommendation ordering.
+
+---
+
+# Stage 7: Hyperparameter Optimization
+
+## Tool
+
+Optuna
+
+## Purpose
+
+Automatically search for optimal parameters including:
+
+* TF-IDF feature size
+* Similarity thresholds
+* Recommendation ranking parameters
+
+---
+
+# Stage 8: Perturbation Analysis
+
+## Goal
+
+Evaluate recommender robustness.
+
+### Experiments
+
+* Remove tags
+* Remove descriptions
+* Corrupt metadata
+* Measure recommendation degradation
+
+This helps assess how sensitive the recommender is to incomplete metadata.
+
+---
+
+# Stage 9: Experiment Tracking
+
+## Tool
+
+Weights & Biases (W&B)
+
+Tracked information:
+
+* Model configurations
+* Evaluation metrics
+* Training experiments
+* Hyperparameter searches
+
+---
+
+# Stage 10: Streamlit Frontend
 
 ## Features
 
-### Stage 1 (Completed)
+* Search datasets by keyword
+* Dataset recommendations
+* Similarity scores
+* Dataset metadata display
 
-- Dataset collection from Hugging Face
-- Data cleaning and preprocessing
-- Unified dataset catalog creation
-- Data quality analysis
-- Exploratory visualizations
-- TF-IDF recommendation engine
-- Example recommendation reports
-
-### Planned Features
-
-- Semantic search using embeddings
-- Sentence Transformers integration
-- Popularity-aware ranking
-- Dataset filtering by:
-  - Domain
-  - Task
-  - Language
-  - License
-- Interactive Streamlit web application
-- Hybrid recommendation system
-- API deployment
-
----
-
-## Project Structure
+Example query:
 
 ```text
-dataset_recommender/
-│
-├── data/
-│   ├── raw/
-│   │   └── huggingface_datasets.csv
-│   │
-│   └── processed/
-│       └── unified_catalog.csv
-│
-├── notebooks/
-│   └── data_quality_analysis.ipynb
-│
-├── reports/
-│   ├── figures/
-│   ├── recommender_examples/
-│   └── stage1_summary.md
-│
-├── src/
-│   ├── scraping/
-│   │   └── scrape_huggingface.py
-│   │
-│   ├── preprocessing/
-│   │   ├── inspect_hf_data.py
-│   │   ├── build_unified_catalog.py
-│   │   ├── catalog_statistics.py
-│   │   └── data_quality_analysis.py
-│   │
-│   └── recommender/
-│       └── tfidf_recommender.py
-│
-├── requirements.txt
-└── README.md
+image classification datasets
 ```
 
 ---
 
-## Dataset Source
+# Expected Contributions
 
-The project currently uses publicly available datasets from Hugging Face.
-
-Dataset metadata includes:
-
-- Dataset name
-- Description
-- Tags
-- Task information
-- Additional metadata
+* Unified multi-source dataset catalog
+* Content-based recommendation system
+* Semantic embedding recommendation system
+* Recommendation quality evaluation framework
+* Robustness analysis through perturbation testing
+* Interactive dataset discovery platform
 
 ---
 
-## Methodology
+# Future Work
 
-### 1. Data Collection
-
-Dataset metadata is collected from Hugging Face and stored locally.
-
-### 2. Data Processing
-
-The collected data is:
-
-- Cleaned
-- Standardized
-- Merged into a unified catalog
-
-### 3. Feature Engineering
-
-Dataset descriptions and metadata are combined into a text representation used for similarity computation.
-
-### 4. TF-IDF Vectorization
-
-TF-IDF converts textual metadata into numerical feature vectors.
-
-### 5. Similarity Search
-
-Cosine similarity is used to identify datasets that are most similar to a user query or reference dataset.
+* Hybrid recommender combining TF-IDF and embeddings
+* User feedback integration
+* Real-time dataset updates
+* Large-scale deployment using Kubernetes
 
 ---
 
-## Installation
+# Author
 
-### Clone Repository
+Master's Project – Dataset Recommendation System
 
-```bash
-git clone https://github.com/IqraIshfaq14/dataset_recommender.git
-cd dataset_recommender
-```
+Research Areas:
 
-### Create Virtual Environment
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-### Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Running the Recommender
-
-```bash
-python src/recommender/tfidf_recommender.py
-```
-
-The recommender returns the most relevant datasets based on textual similarity.
-
----
-
-## Example Queries
-
-### Query: Iris Dataset
-
-Returns similar:
-
-- Classification datasets
-- Tabular datasets
-- Benchmark datasets
-
-### Query: Image Classification
-
-Returns similar:
-
-- Vision datasets
-- Object detection datasets
-- Image segmentation datasets
-
-### Query: Mathematical Reasoning
-
-Returns similar:
-
-- GSM8K
-- Reasoning benchmarks
-- Educational datasets
-
----
-
-## Data Quality Analysis
-
-The project includes exploratory analysis and visualizations such as:
-
-- Missing value analysis
-- Dataset description length distribution
-- Tag frequency analysis
-- Catalog statistics
-
-Generated figures are stored in:
-
-```text
-reports/figures/
-```
-
----
-
-## Current Results
-
-Stage 1 successfully demonstrates:
-
-- Automated dataset collection
-- Dataset catalog construction
-- Metadata exploration
-- TF-IDF recommendation system
-
-This serves as a strong baseline for future semantic recommendation approaches.
-
----
-
-## Future Roadmap
-
-### Stage 2
-
-- Improve recommendation quality
-- Increase recommendation count
-- Add metadata filters
-- Improve ranking strategy
-
-### Stage 3
-
-- Sentence Transformer embeddings
-- Semantic search
-- Hybrid recommendation system
-
-### Stage 4
-
-- Streamlit application
-- Interactive user interface
-- Dataset search dashboard
-
-### Stage 5
-
-- Deployment
-- REST API
-- Cloud hosting
-
----
-
-## Technologies Used
-
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Matplotlib
-- Jupyter Notebook
-- Hugging Face Datasets
-- Git
-- GitHub
-
----
-
-## Author
-
-**Iqra Ishfaq**
-
-GitHub: https://github.com/IqraIshfaq14
-
----
-
-## License
-
-This project is intended for educational, research, and portfolio purposes.
+* Information Retrieval
+* Recommender Systems
+* Natural Language Processing
+* Semantic Search
+* Machine Learning
